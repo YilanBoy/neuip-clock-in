@@ -1,16 +1,15 @@
 import configparser
 import os
-import sys
 import time
 from datetime import datetime
 
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.webdriver import WebDriver
+
+from get_element import *
 
 # 取得設定檔的參數
 current_directory_path = os.path.dirname(__file__)
@@ -27,39 +26,6 @@ clock_in_time = datetime.now().replace(
 clock_out_time = datetime.now().replace(
     hour=int(config['CLOCK_OUT']['hour']),
     minute=int(config['CLOCK_OUT']['minute']))
-
-
-# 使用 selector 取得元素
-def get_element_by_selector(browser: WebDriver, selector: str):
-    try:
-        element = browser.find_element(By.CSS_SELECTOR, selector)
-    except NoSuchElementException:
-        browser.close()
-        sys.exit('No element')
-
-    return element
-
-
-# 使用完整 xpath 取得元素
-def get_element_by_xpath(browser: WebDriver, xpath: str):
-    try:
-        element = browser.find_element(By.XPATH, xpath)
-    except NoSuchElementException:
-        browser.close()
-        sys.exit('No element')
-
-    return element
-
-
-# 使用 id 取得元素
-def get_element_by_id(browser: WebDriver, id: str):
-    try:
-        element = browser.find_element(By.ID, id)
-    except NoSuchElementException:
-        browser.close()
-        sys.exit('No element')
-
-    return element
 
 
 # 登入
