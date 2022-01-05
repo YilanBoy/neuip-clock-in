@@ -1,7 +1,5 @@
-import configparser
 import os
-import time
-from datetime import datetime
+from datetime import date, datetime
 
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -9,13 +7,13 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.webdriver import WebDriver
 
-from get_element import *
+from src.clock_in import *
+from src.clock_out import *
+from src.config import get_config
+from src.get_element import *
 
 # 取得設定檔的參數
-current_directory_path = os.path.dirname(__file__)
-config_file_path = os.path.join(current_directory_path, 'config.ini')
-config = configparser.RawConfigParser()
-config.read(config_file_path)
+config = get_config()
 
 # 取得上班時間
 clock_in_time = datetime.now().replace(
@@ -43,56 +41,10 @@ def login(browser: WebDriver):
     get_element_by_id(browser, 'login-button').click()
 
 
-# 點擊打上班卡的按鈕
-def click_the_clock_in_button(browser: WebDriver):
-    element = get_element_by_selector(browser, config['CLOCK_IN']['selector'])
-
-    actions = ActionChains(browser)
-    actions.move_to_element(element)
-    actions.click()
-    actions.perform()
-
-
-# 點擊打下班卡的按鈕
-def click_the_clock_out_button(browser: WebDriver):
-    element = get_element_by_selector(browser, config['CLOCK_OUT']['selector'])
-
-    actions = ActionChains(browser)
-    actions.move_to_element(element)
-    actions.click()
-    actions.perform()
-
-
-def clock_in(browser: WebDriver):
-    if is_clock_in(browser):
-        print('time to clock in, but you have already clocked in')
-    else:
-        print('time to clock in')
-
-        click_the_clock_in_button(browser)
-
-        if is_clock_in(browser):
-            print('clock in success')
-        else:
-            print('clock in failed')
-
-
-def clock_out(browser: WebDriver):
-    if is_clock_out(browser):
-        print('time to clock out, but you already clocked out')
-    else:
-        print('time to clock out')
-
-        click_the_clock_out_button(browser)
-
-        if is_clock_out(browser):
-            print('clock out success')
-        else:
-            print('clock out failed')
-
-
 # 根據時間打上下班的卡
 def clock_in_or_clock_out(browser: WebDriver):
+    print(date.today())
+
     browser.get(config['WEBSITE']['target_url'])
 
     browser.implicitly_wait(10)
@@ -109,36 +61,6 @@ def clock_in_or_clock_out(browser: WebDriver):
         else:
             print('you were late!')
             clock_in(browser)
-
-
-# 檢查是否已經打上班卡
-def is_clock_in(browser: WebDriver) -> bool:
-
-    retry = 0
-    while "clock_btn2" not in get_element_by_selector(browser, config['CLOCK_IN']['selector']).get_attribute('class'):
-
-        retry += 1
-        if retry > 3:
-            return False
-
-        time.sleep(3)
-
-    return True
-
-
-# 檢查是否已經打下班卡
-def is_clock_out(browser: WebDriver) -> bool:
-
-    retry = 0
-    while "clock_btn2" not in get_element_by_selector(browser, config['CLOCK_OUT']['selector']).get_attribute('class'):
-
-        retry += 1
-        if retry > 3:
-            return False
-
-        time.sleep(3)
-
-    return True
 
 
 def main():
