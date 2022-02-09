@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.firefox.webdriver import WebDriver
@@ -12,24 +13,21 @@ config = get_config()
 
 # 進行打下班卡作業
 def clock_out(browser: WebDriver):
+    current_datetime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+    click_the_clock_out_button(browser)
 
     if is_clock_out(browser):
-        print('time to clock out, but you already clocked out')
+        print(f'{current_datetime} clock out success')
     else:
-        print('time to clock out')
-
-        click_the_clock_out_button(browser)
-
-        if is_clock_out(browser):
-            print('clock out success')
-        else:
-            print('clock out failed')
+        print(f'{current_datetime} clock out failed')
 
 
 # 檢查是否已經打下班卡
 def is_clock_out(browser: WebDriver) -> bool:
 
     retry = 0
+    # 必須使用雙引號，否則即使 class name 存在也會回傳 False
     while "clock_btn2" not in get_element_by_selector(browser, config['CLOCK_OUT']['selector']).get_attribute('class'):
 
         retry += 1

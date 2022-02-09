@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.firefox.webdriver import WebDriver
@@ -12,24 +13,21 @@ config = get_config()
 
 # 進行打上班卡作業
 def clock_in(browser: WebDriver):
+    current_datetime = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+
+    click_the_clock_in_button(browser)
 
     if is_clock_in(browser):
-        print('time to clock in, but you have already clocked in')
+        print(f'{current_datetime} clock in success')
     else:
-        print('time to clock in')
-
-        click_the_clock_in_button(browser)
-
-        if is_clock_in(browser):
-            print('clock in success')
-        else:
-            print('clock in failed')
+        print(f'{current_datetime} clock in failed')
 
 
 # 檢查是否已經打上班卡
 def is_clock_in(browser: WebDriver) -> bool:
 
     retry = 0
+    # 必須使用雙引號，否則即使 class name 存在也會回傳 False
     while "clock_btn2" not in get_element_by_selector(browser, config['CLOCK_IN']['selector']).get_attribute('class'):
 
         retry += 1

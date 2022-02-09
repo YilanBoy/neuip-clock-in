@@ -1,5 +1,5 @@
 import os
-from datetime import date, datetime
+from datetime import datetime
 
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -43,24 +43,27 @@ def login(browser: WebDriver):
 
 # 根據時間打上下班的卡
 def clock_in_or_clock_out(browser: WebDriver):
-    print(date.today())
-
     browser.get(config['WEBSITE']['target_url'])
 
     browser.implicitly_wait(10)
 
     if datetime.now() < clock_in_time:
-        clock_in(browser)
+        if not is_clock_in(browser):
+            clock_in(browser)
 
-    if datetime.now() > clock_out_time:
-        clock_out(browser)
+        return
 
     if datetime.now() > clock_in_time and datetime.now() < clock_out_time:
-        if is_clock_in(browser):
-            print('already clocked in')
-        else:
-            print('you were late!')
+        if not is_clock_in(browser):
             clock_in(browser)
+
+        return
+
+    if datetime.now() > clock_out_time:
+        if not is_clock_out(browser):
+            clock_out(browser)
+
+        return
 
 
 def main():
