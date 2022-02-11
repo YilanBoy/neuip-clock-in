@@ -6,6 +6,7 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 
 from src.config import get_config
 from src.get_element import *
+from src.jandi import send_message
 
 # 取得設定檔的參數
 config = get_config()
@@ -18,9 +19,13 @@ def clock_in(browser: WebDriver):
     click_the_clock_in_button(browser)
 
     if is_clock_in(browser):
-        print(f'{current_datetime} clock in success')
+        message = f'✅ {current_datetime} clock in success.'
+        print(message)
+        send_message(message)
     else:
-        print(f'{current_datetime} clock in failed')
+        message = f'❌ {current_datetime} clock in failed.'
+        print(message)
+        send_message(message)
 
 
 # 檢查是否已經打上班卡

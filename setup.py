@@ -73,7 +73,8 @@ def main():
 
     # 偽造公司的地理坐標
     options.set_preference(
-        'geo.wifi.uri', 'data:application/json,{"location": {"lat": 25.04561, "lng":121.54891}, "accuracy": 20.0}')
+        'geo.wifi.uri',
+        f'data:application/json,{{"location": {{"lat": {config["LOCATION"]["lat"]}, "lng":{config["LOCATION"]["lng"]}}}, "accuracy": 20.0}}')
     options.set_preference("geo.prompt.testing", True)
 
     browser = webdriver.Firefox(
