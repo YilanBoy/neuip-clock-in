@@ -19,11 +19,11 @@ def clock_out(browser: WebDriver):
     click_the_clock_out_button(browser)
 
     if is_clock_out(browser):
-        message = f'✅ {current_datetime} clock out success.'
+        message = f'🗓 {current_datetime}\n🏠 clock out\n✅ success.'
         print(message)
         send_message(message)
     else:
-        message = f'❌ {current_datetime} clock out failed.'
+        message = f'🗓 {current_datetime}\n🏠 clock out\n❌ failed.'
         print(message)
         send_message(message)
 

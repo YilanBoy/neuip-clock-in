@@ -19,11 +19,11 @@ def clock_in(browser: WebDriver):
     click_the_clock_in_button(browser)
 
     if is_clock_in(browser):
-        message = f'✅ {current_datetime} clock in success.'
+        message = f'🗓 {current_datetime}\n💼 clock in\n✅ success'
         print(message)
         send_message(message)
     else:
-        message = f'❌ {current_datetime} clock in failed.'
+        message = f'🗓 {current_datetime}\n💼 clock in\n❌ failed'
         print(message)
         send_message(message)
 
