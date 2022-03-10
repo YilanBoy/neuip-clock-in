@@ -14,16 +14,17 @@ config = get_config()
 
 # 進行打下班卡作業
 def clock_out(browser: WebDriver):
-    current_datetime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    current_date = datetime.today().strftime('%Y-%m-%d')
+    current_time = datetime.today().strftime('%H:%M:%S')
 
     click_the_clock_out_button(browser)
 
     if is_clock_out(browser):
-        message = f'🗓 {current_datetime}\n🏠 clock out\n✅ success.'
+        message = f'🗓 {current_date}\n🕕 {current_time}\n🏠 clock out\n✅ success.'
         print(message)
         send_message(message)
     else:
-        message = f'🗓 {current_datetime}\n🏠 clock out\n❌ failed.'
+        message = f'🗓 {current_date}\n🕕 {current_time}\n🏠 clock out\n❌ failed.'
         print(message)
         send_message(message)
 

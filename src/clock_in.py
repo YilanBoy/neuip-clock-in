@@ -14,16 +14,17 @@ config = get_config()
 
 # 進行打上班卡作業
 def clock_in(browser: WebDriver):
-    current_datetime = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+    current_date = datetime.today().strftime("%Y-%m-%d")
+    current_time = datetime.today().strftime('%H:%M:%S')
 
     click_the_clock_in_button(browser)
 
     if is_clock_in(browser):
-        message = f'🗓 {current_datetime}\n💼 clock in\n✅ success'
+        message = f'🗓 {current_date}\n🕘 {current_time}\n💼 clock in\n✅ success'
         print(message)
         send_message(message)
     else:
-        message = f'🗓 {current_datetime}\n💼 clock in\n❌ failed'
+        message = f'🗓 {current_date}\n🕘 {current_time}\n💼 clock in\n❌ failed'
         print(message)
         send_message(message)
 
