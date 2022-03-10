@@ -6,9 +6,9 @@ This is a simple project to avoid forgetful person (like me) to forget about clo
 
 ## Requirements
 
-[Python 3](https://www.python.org/)  
-[Firefox](https://www.mozilla.org/zh-TW/firefox/new/)  
-[Gecko driver](https://github.com/mozilla/geckodriver)
+- [Python 3](https://www.python.org/)
+- [Firefox](https://www.mozilla.org/zh-TW/firefox/new/)
+- [Gecko driver](https://github.com/mozilla/geckodriver)
 
 ## How to use
 
@@ -25,6 +25,13 @@ you could use JANDI to notice the clock in status, referring to this [post](http
 cp config_example.ini config.ini
 ```
 
+Execute the clock in.
+
+```shell
+python setup.py
+```
+
+You could use crontab to schedule the clock in task.  
 Edit the crontab setting.
 
 ```shell
@@ -35,7 +42,7 @@ Add this line in the crontab file.
 According your working hours, you could adjust the crontab setting.
 
 ```plaintext
-31-40 9,18 * * 1-5 auto_clock_in_file_path >> /Users/username/clock_in.log
+31-40 9,18 * * 1-5 python auto_clock_in_file_path/setup.py >> /Users/username/clock_in.log
 ```
 
 > If needed, you probably need to add environment variables to your crontab.
